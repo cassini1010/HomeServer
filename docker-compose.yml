@@ -34,6 +34,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.home`)"
       - "traefik.http.routers.whoami.entrypoints=web"
+    depends_on:
+      - traefik
+      - pihole
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
@@ -56,6 +59,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.home`)"
       - "traefik.http.routers.jellyfin.entrypoints=web"
+    depends_on:
+      - traefik
+      - pihole
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -102,6 +108,8 @@ services:
       # Optional, if Pi-hole should get some more processing time
       - SYS_NICE
     restart: unless-stopped
+    depends_on:
+      - traefik
 
 networks:
   proxy:
